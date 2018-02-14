@@ -68,7 +68,9 @@ def get_clean_reviews_for_beer(beer_review_soups):
     for i in beer_review_soups:
         clean_reviews = get_clean_reviews_from_page(i)
         for j in clean_reviews:
-            all_clean_reviews.append(j)
+            myString = j[0]
+            myString = myString.replace('<br>', '') # remove '<br>''
+            all_clean_reviews.append([myString]) # not 100% sure why [] needed
     return all_clean_reviews
 
 
@@ -76,9 +78,9 @@ def get_clean_reviews_for_beer(beer_review_soups):
 
 # Load raw beer profiles. The rbr_???.pkd files are pickled lists of bs4
 # objects of each review page for a beer.
-path = '/Users/Drazi/beerwell/data/rbr/rbr_'
+path = '/Users/Drazi/Dropbox/beerwell_data/data/rbr/rbr_'
 
-for i in xrange(51, 251):
+for i in range(1, 251):
     beer_review_soups = dill.load(open(path + str(i) + '.pkd', 'rb'))
     # Pull out all cleaned text reviews for a beer
     all_clean_reviews = get_clean_reviews_for_beer(beer_review_soups)
